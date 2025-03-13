@@ -6,7 +6,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <h1 className="title">V isual N ovel AI</h1>
+        <h1 className="title">Visual Novel AI</h1>
       </header>
       <main>
         <TabContainer />

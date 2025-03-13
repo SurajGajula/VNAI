@@ -1,70 +1,83 @@
-# PDF Line Reader
+# Visual Novel AI
 
-A React TypeScript application that allows users to upload PDF files and view their content line by line.
+A React-based application for creating visual novel experiences from text. This tool allows you to upload PDF documents, extract dialogue, and present it in a visual novel format with character sprites and backgrounds.
 
 ## Features
 
-- Upload PDF files
-- Extract text content from PDFs
-- Display text content line by line with page and line numbers
-- Clean and responsive user interface
+### PDF Dialogue Extraction
+- Upload PDF files and automatically extract text
+- Intelligent parsing of dialogue and speaker identification
+- Automatic organization of dialogue into a sequential scene
 
-## Technologies Used
+### Visual Novel View
+- Interactive visual novel interface with typing animation
+- Character sprites displayed based on the current speaker
+- Background images to set the scene
+- Fullscreen mode for immersive reading
+- Keyboard (space) and click navigation
 
-- React
-- TypeScript
-- PDF.js for PDF parsing
-- Create React App for project setup
+### Asset Management
+- Upload and manage character sprites for each detected speaker
+- Set background images for your visual novel scenes
+- Real-time preview of assets in the visual novel view
+
+## How It Works
+
+1. **Upload**: Upload a PDF file containing dialogue text
+2. **Assets**: Add character sprites for each detected speaker and set a background
+3. **View**: Experience your text as a visual novel with character sprites and animated dialogue
 
 ## Getting Started
 
 ### Prerequisites
-
-- Node.js (v14 or later)
-- npm (v6 or later)
+- Node.js (v14 or higher)
+- npm or yarn
 
 ### Installation
 
-1. Clone the repository
 ```bash
-git clone <repository-url>
-cd pdf-reader
-```
+# Clone the repository
+git clone https://github.com/yourusername/visual-novel-ai.git
+cd visual-novel-ai
 
-2. Install dependencies
-```bash
+# Install dependencies
 npm install
-```
 
-3. Start the development server
-```bash
+# Start the development server
 npm start
 ```
 
-4. Open your browser and navigate to `http://localhost:3000`
+### Usage
 
-## Usage
+1. **Upload a PDF**:
+   - Navigate to the "Upload" tab
+   - Click the file input to select a PDF file
+   - The application will extract dialogue and identify speakers
 
-1. Click the "Choose File" button to select a PDF file from your computer
-2. The application will process the PDF and display its content line by line
-3. Each line is displayed with its corresponding page and line number
-4. Use the "Clear" button to reset and upload a different PDF
+2. **Add Assets**:
+   - Navigate to the "Assets" tab
+   - Click on a character name to select it
+   - Upload a character sprite for the selected character
+   - Upload a background image for your scene
 
-## Building for Production
+3. **View Your Visual Novel**:
+   - Navigate to the "View" tab
+   - Click or press space to advance through the dialogue
+   - Use the fullscreen button for an immersive experience
 
-To build the application for production, run:
+## Technical Details
 
-```bash
-npm run build
-```
-
-This will create a `build` folder with optimized production files.
+- Built with React and TypeScript
+- Uses PDF.js for PDF parsing
+- State management with Zustand
+- Responsive design for various screen sizes
 
 ## License
 
-This project is licensed under the MIT License.
+This project is licensed under the MIT License - see the LICENSE file for details.
 
-## Acknowledgements
+## Acknowledgments
 
-- [PDF.js](https://mozilla.github.io/pdf.js/) - A general-purpose, web standards-based platform for parsing and rendering PDFs
-- [Create React App](https://create-react-app.dev/) - Set up a modern web app by running one command
+- PDF.js for PDF parsing capabilities
+- React for the UI framework
+- Zustand for state management

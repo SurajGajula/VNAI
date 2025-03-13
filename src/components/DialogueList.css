@@ -15,13 +15,9 @@
 
 .no-dialogues {
   text-align: center;
-  padding: 40px 20px;
-  color: black;
+  padding: 20px;
+  color: #666;
   font-style: italic;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  margin: 20px auto;
-  border: 1px solid #eee;
 }
 
 /* Visual Novel Container */
@@ -113,8 +109,16 @@
   z-index: 2;
 }
 
+/* Character sprite image */
+.character-sprite {
+  max-height: 100%;
+  max-width: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.5));
+}
+
 /* Character silhouette placeholder */
-.vn-character:after {
+.character-placeholder:after {
   content: '';
   display: block;
   width: 300px;
@@ -205,32 +209,6 @@
   cursor: pointer;
   position: relative;
   padding-bottom: 20px;
-}
-
-.dialogue-content:after {
-  content: 'Press SPACE or click to continue';
-  position: absolute;
-  bottom: -15px;
-  left: 0;
-  width: 100%;
-  text-align: center;
-  font-size: 0.8em;
-  color: rgba(255, 255, 255, 0.5);
-  font-style: italic;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.dialogue-content:hover:after {
-  opacity: 1;
-}
-
-/* No dialogues message */
-.no-dialogues {
-  text-align: center;
-  padding: 20px;
-  color: #666;
-  font-style: italic;
 }
 
 /* Speaker name box */

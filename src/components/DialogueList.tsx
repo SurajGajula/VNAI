@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useDialogueStore } from '../stores/DialogueStore';
+import { useSceneStore } from '../stores/SceneStore';
 import './DialogueList.css';
 
 const DialogueList: React.FC = () => {
   const { 
-    dialogues, 
+    scene,
     currentIndex, 
     setCurrentIndex 
-  } = useDialogueStore();
+  } = useSceneStore();
   const [displayedText, setDisplayedText] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -20,7 +20,7 @@ const DialogueList: React.FC = () => {
     // Only advance to next dialogue if not typing
     if (!isTyping) {
       // Loop back to the beginning if we're at the end
-      if (currentIndex >= dialogues.length - 1) {
+      if (currentIndex >= scene.dialogue.length - 1) {
         setCurrentIndex(0);
       } else {
         setCurrentIndex(currentIndex + 1);
@@ -68,13 +68,13 @@ const DialogueList: React.FC = () => {
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [currentIndex, dialogues.length, isTyping, handleNextDialogue]);
+  }, [currentIndex, scene.dialogue.length, isTyping, handleNextDialogue]);
 
   // Effect to handle text animation when dialogue changes
   useEffect(() => {
-    if (dialogues.length === 0) return;
+    if (scene.dialogue.length === 0) return;
     
-    const text = dialogues[currentIndex].line;
+    const text = scene.dialogue[currentIndex].line;
     fullTextRef.current = text;
     setDisplayedText('');
     setIsTyping(true);
@@ -106,7 +106,7 @@ const DialogueList: React.FC = () => {
         intervalIdRef.current = null;
       }
     };
-  }, [currentIndex, dialogues]);
+  }, [currentIndex, scene.dialogue]);
 
   const toggleFullscreen = (event: React.MouseEvent<HTMLButtonElement>) => {
     if (!document.fullscreenElement) {
@@ -132,20 +132,27 @@ const DialogueList: React.FC = () => {
     return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
   }, []);
 
-  if (dialogues.length === 0) {
+  if (scene.dialogue.length === 0) {
     return <div className="no-dialogues">No dialogues loaded. Please upload a PDF file.</div>;
   }
 
-  const currentDialogue = dialogues[currentIndex];
+  const currentDialogue = scene.dialogue[currentIndex];
+  const currentSpeaker = currentDialogue.speaker;
+  const characterSprite = scene.getCharacterSprite(currentSpeaker);
   
   return (
     <div className={`vn-container ${isFullscreen ? 'fullscreen' : ''}`} ref={vnContainerRef}>
       <div className="vn-scene">
-        <div className="vn-background">
-          {/* Background image would go here */}
+        <div className="vn-background" style={scene.background ? { backgroundImage: `url(${scene.background})` } : {}}>
+          {/* Background image */}
         </div>
         <div className="vn-character">
-          {/* Character sprite would go here */}
+          {characterSprite ? (
+            <img src={characterSprite} alt={currentSpeaker} className="character-sprite" />
+          ) : (
+            /* Only show character placeholder if there's a speaker but no sprite */
+            currentDialogue.hasSpeaker() && <div className="character-placeholder"></div>
+          )}
         </div>
       </div>
       

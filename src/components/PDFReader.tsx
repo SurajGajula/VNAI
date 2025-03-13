@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import './PDFReader.css';
 import * as pdfjs from 'pdfjs-dist';
 import { Dialogue } from '../classes/Dialogue';
-import { useDialogueStore } from '../stores/DialogueStore';
+import { useSceneStore } from '../stores/SceneStore';
 
 // Set the worker source
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
@@ -21,7 +21,7 @@ const PDFReader: React.FC = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   
   // Get the store methods
-  const { setDialogues, clearDialogues } = useDialogueStore();
+  const { addDialogue, clearScene } = useSceneStore();
 
   const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
@@ -32,7 +32,7 @@ const PDFReader: React.FC = () => {
     setIsLoading(true);
     setError(null);
     setPdfLines([]);
-    clearDialogues(); // Clear any existing dialogues
+    clearScene(); // Clear the scene when loading a new file
 
     try {
       const arrayBuffer = await file.arrayBuffer();
@@ -100,22 +100,22 @@ const PDFReader: React.FC = () => {
       return sentence.trim();
     });
     
-    // Create Dialogue objects for each sentence
-    const dialogues = processedSentences
+    // Create Dialogue objects for each sentence and add to scene
+    processedSentences
       .filter(sentence => sentence.trim().length > 0)
-      .map(sentence => new Dialogue(sentence.trim()));
+      .forEach(sentence => {
+        const dialogue = new Dialogue(sentence.trim());
+        addDialogue(dialogue);
+      });
     
-    // Update the store with the dialogues
-    setDialogues(dialogues);
-    
-    console.log(`Parsed ${dialogues.length} dialogues from PDF`);
+    console.log(`Parsed and added dialogues to scene`);
   };
 
   const handleReset = () => {
     setPdfLines([]);
     setFileName('');
     setError(null);
-    clearDialogues(); // Clear dialogues when resetting
+    clearScene(); // Clear scene when resetting
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
@@ -123,7 +123,7 @@ const PDFReader: React.FC = () => {
 
   return (
     <div className="pdf-reader">
-      <h2>PDF D ialogue Reader</h2>
+      <h2>PDF Dialogue Reader</h2>
       <div className="upload-section">
         <input
           type="file"
