@@ -99,4 +99,21 @@ button {
 
 button:hover {
   background-color: #FF2400; /* Scarlet */
+}
+
+.success-message {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+  border-radius: 4px;
+  text-align: center;
+  animation: fadeOut 3s forwards;
+  animation-delay: 2s;
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
 } 

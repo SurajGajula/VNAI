@@ -142,36 +142,38 @@ const DialogueList: React.FC = () => {
   
   return (
     <div className={`vn-container ${isFullscreen ? 'fullscreen' : ''}`} ref={vnContainerRef}>
-      <div className="vn-scene">
-        <div className="vn-background" style={scene.background ? { backgroundImage: `url(${scene.background})` } : {}}>
-          {/* Background image */}
-        </div>
-        <div className="vn-character">
-          {characterSprite ? (
-            <img src={characterSprite} alt={currentSpeaker} className="character-sprite" />
-          ) : (
-            /* Only show character placeholder if there's a speaker but no sprite */
-            currentDialogue.hasSpeaker() && <div className="character-placeholder"></div>
-          )}
-        </div>
-      </div>
-      
-      <div className="dialogue-container">
-        <div className="dialogue-header">
-          {currentDialogue.hasSpeaker() ? (
-            <div className="character-name">{currentDialogue.speaker}</div>
-          ) : (
-            <div className="character-name-placeholder"></div>
-          )}
-          <div className="dialogue-controls">
-            <button onClick={toggleFullscreen} className="fullscreen-toggle">
-              {isFullscreen ? '⊖' : '⊕'}
-            </button>
+      <div className="vn-scene-container">
+        <div className="vn-scene">
+          <div className="vn-background" style={scene.background ? { backgroundImage: `url(${scene.background})` } : {}}>
+            {/* Background image */}
+          </div>
+          <div className="vn-character">
+            {characterSprite ? (
+              <img src={characterSprite} alt={currentSpeaker} className="character-sprite" />
+            ) : (
+              /* Only show character placeholder if there's a speaker but no sprite */
+              currentDialogue.hasSpeaker() && <div className="character-placeholder"></div>
+            )}
           </div>
         </div>
-        <div className="dialogue-content" onClick={handleDialogueBoxClick}>
-          {displayedText}
-          {!isTyping && <div className="vn-dialogue-indicator">▼</div>}
+        
+        <div className="dialogue-container">
+          <div className="dialogue-header">
+            {currentDialogue.hasSpeaker() ? (
+              <div className="character-name">{currentDialogue.speaker}</div>
+            ) : (
+              <div className="character-name-placeholder"></div>
+            )}
+            <div className="dialogue-controls">
+              <button onClick={toggleFullscreen} className="fullscreen-toggle">
+                {isFullscreen ? '⊖' : '⊕'}
+              </button>
+            </div>
+          </div>
+          <div className="dialogue-content" onClick={handleDialogueBoxClick}>
+            {displayedText}
+            {!isTyping && <div className="vn-dialogue-indicator">▼</div>}
+          </div>
         </div>
       </div>
     </div>

@@ -3,6 +3,7 @@ import './PDFReader.css';
 import * as pdfjs from 'pdfjs-dist';
 import { Dialogue } from '../classes/Dialogue';
 import { useSceneStore } from '../stores/SceneStore';
+import { useTabContext } from './TabContainer';
 
 // Set the worker source
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
@@ -14,14 +15,17 @@ interface PDFLine {
 }
 
 const PDFReader: React.FC = () => {
-  const [pdfLines, setPdfLines] = useState<PDFLine[]>([]);
   const [fileName, setFileName] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<boolean>(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   
   // Get the store methods
   const { addDialogue, clearScene } = useSceneStore();
+  
+  // Get the tab context for switching tabs
+  const { setActiveTab } = useTabContext();
 
   const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
@@ -31,7 +35,7 @@ const PDFReader: React.FC = () => {
     setFileName(file.name);
     setIsLoading(true);
     setError(null);
-    setPdfLines([]);
+    setSuccess(false);
     clearScene(); // Clear the scene when loading a new file
 
     try {
@@ -39,7 +43,6 @@ const PDFReader: React.FC = () => {
       const pdf = await pdfjs.getDocument({ data: arrayBuffer }).promise;
       const totalPages = pdf.numPages;
       
-      let allLines: PDFLine[] = [];
       let fullText = '';
       
       for (let pageNum = 1; pageNum <= totalPages; pageNum++) {
@@ -48,23 +51,20 @@ const PDFReader: React.FC = () => {
         
         // Process text items into lines
         const items = textContent.items as any[];
-        const pageLines = items.map((item, index) => ({
-          text: item.str,
-          pageNumber: pageNum,
-          lineNumber: index + 1
-        }));
-        
-        allLines = [...allLines, ...pageLines];
         
         // Collect text for dialogue parsing
         const pageText = items.map(item => item.str).join(' ');
         fullText += pageText + ' ';
       }
       
-      setPdfLines(allLines);
-      
       // Parse dialogues from the full text
       parseDialoguesFromText(fullText);
+      
+      // Set success state
+      setSuccess(true);
+      
+      // Automatically switch to the Assets tab
+      setActiveTab('assets');
       
     } catch (err) {
       console.error('Error parsing PDF:', err);
@@ -112,9 +112,9 @@ const PDFReader: React.FC = () => {
   };
 
   const handleReset = () => {
-    setPdfLines([]);
     setFileName('');
     setError(null);
+    setSuccess(false);
     clearScene(); // Clear scene when resetting
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
@@ -139,17 +139,9 @@ const PDFReader: React.FC = () => {
       
       {error && <div className="error">{error}</div>}
       
-      {pdfLines.length > 0 && (
-        <div className="results">
-          <h3>PDF C ontent</h3>
-          <p>Lines extracted: {pdfLines.length}</p>
-          <div className="lines-container">
-            {pdfLines.map((line, index) => (
-              <div key={index} className="line">
-                <span className="line-text">{line.text}</span>
-              </div>
-            ))}
-          </div>
+      {success && !isLoading && (
+        <div className="success-message">
+          <p>PDF successfully processed! Switching to Assets tab...</p>
         </div>
       )}
     </div>

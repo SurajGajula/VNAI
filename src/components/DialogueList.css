@@ -45,27 +45,27 @@
   z-index: 9999;
   background-color: #000;
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-/* Auto-hide controls in fullscreen mode */
-.fullscreen .dialogue-controls {
-  opacity: 0.3;
-  transition: opacity 0.3s ease;
+/* Scene container */
+.vn-scene-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
 
-.fullscreen .dialogue-controls:hover {
-  opacity: 1;
-}
-
-.fullscreen .vn-scene {
-  flex: 1;
+/* In fullscreen, maintain aspect ratio */
+.fullscreen .vn-scene-container {
   position: relative;
-}
-
-.fullscreen .dialogue-container {
-  position: relative;
-  max-height: 30vh;
+  width: 100%;
+  height: 100%;
+  max-width: 177.78vh; /* 16:9 aspect ratio (100 * 16/9) */
+  max-height: 56.25vw; /* 16:9 aspect ratio (100 * 9/16) */
+  margin: auto;
 }
 
 /* Scene where characters/backgrounds would appear */
@@ -107,6 +107,7 @@
   align-items: flex-end;
   justify-content: center;
   z-index: 2;
+  pointer-events: none; /* Ensure clicks pass through to the dialogue box */
 }
 
 /* Character sprite image */
@@ -118,6 +119,12 @@
 }
 
 /* Character silhouette placeholder */
+.character-placeholder {
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+}
+
 .character-placeholder:after {
   content: '';
   display: block;
@@ -134,7 +141,7 @@
   bottom: 0;
   left: 0;
   width: 100%;
-  background-color: rgba(0, 0, 0, 0.7);
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.9));
   color: white;
   padding: 15px 15px 25px;
   box-sizing: border-box;
@@ -279,4 +286,14 @@
   50% {
     transform: translateY(-5px);
   }
+}
+
+/* Auto-hide controls in fullscreen mode */
+.fullscreen .dialogue-controls {
+  opacity: 0.3;
+  transition: opacity 0.3s ease;
+}
+
+.fullscreen .dialogue-controls:hover {
+  opacity: 1;
 } 

@@ -8,12 +8,16 @@ export interface CharacterSprite {
 export class Scene {
     public dialogue: Dialogue[];
     public background: string;
-    public characterSprites: Map<string, string>; // Maps speaker name to sprite URL
+    public characterSprites: Map<string, string>;
+    public tone: string;
+    public toneEmoji: string;
 
     constructor() {
         this.dialogue = [];
         this.background = "";
         this.characterSprites = new Map<string, string>();
+        this.tone = "";
+        this.toneEmoji = "";
     }
 
     addDialogue(dialogue: Dialogue) {
@@ -36,5 +40,12 @@ export class Scene {
         return Array.from(new Set(this.dialogue
             .filter(dialogue => dialogue.speaker !== "None")
             .map(dialogue => dialogue.speaker)));
+    }
+
+    setTone(tone: string, emoji?: string) {
+        this.tone = tone;
+        if (emoji) {
+            this.toneEmoji = emoji;
+        }
     }
 }

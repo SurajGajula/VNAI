@@ -163,4 +163,100 @@
   justify-content: center;
   color: #666;
   font-style: italic;
+}
+
+/* Tone Section Styles */
+.tone-section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 20px;
+  padding: 15px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  width: 100%;
+}
+
+.tone-display {
+  margin-bottom: 15px;
+  width: 100%;
+}
+
+.tone-value {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #f0f0f0;
+  margin-bottom: 5px;
+  text-transform: capitalize;
+}
+
+.tone-description {
+  font-size: 0.9rem;
+  color: #aaa;
+  font-style: italic;
+}
+
+.analyze-tone-button {
+  background-color: #4a5568;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.2s;
+}
+
+.analyze-tone-button:hover:not(:disabled) {
+  background-color: #2d3748;
+}
+
+.analyze-tone-button:disabled {
+  background-color: #2d3748;
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Tone Error Styles */
+.tone-error {
+  margin-bottom: 15px;
+  width: 100%;
+  padding: 10px;
+  background-color: rgba(255, 0, 0, 0.1);
+  border-radius: 4px;
+  border-left: 4px solid #ff0000;
+}
+
+.error-message {
+  color: #d32f2f;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.error-help {
+  color: #666;
+  font-size: 0.9rem;
+  font-style: italic;
+}
+
+.help-button {
+  margin-top: 10px;
+  background-color: #4a5568;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.help-button:hover {
+  background-color: #2d3748;
+}
+
+.tone-emoji {
+  font-size: 1.8rem;
+  margin-left: 8px;
+  vertical-align: middle;
 } 
