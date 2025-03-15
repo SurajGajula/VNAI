@@ -8,12 +8,6 @@ import { useTabContext } from './TabContainer';
 // Set the worker source
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 
-interface PDFLine {
-  text: string;
-  pageNumber: number;
-  lineNumber: number;
-}
-
 const PDFReader: React.FC = () => {
   const [fileName, setFileName] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
